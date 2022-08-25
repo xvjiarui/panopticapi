@@ -166,7 +166,7 @@ def pq_compute_single_core(proc_id, annotation_set, gt_folder, pred_folder, cate
 
 
 def pq_compute_multi_core(matched_annotations_list, gt_folder, pred_folder, categories):
-    cpu_num = multiprocessing.cpu_count()
+    cpu_num = int(os.environ.get("PANOPTIC_EVAL_CORE", multiprocessing.cpu_count()//2))
     annotations_split = np.array_split(matched_annotations_list, cpu_num)
     print("Number of cores: {}, images per core: {}".format(cpu_num, len(annotations_split[0])))
     workers = multiprocessing.Pool(processes=cpu_num)
